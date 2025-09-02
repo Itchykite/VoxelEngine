@@ -40,7 +40,7 @@ void Camera::processKeyboardMovement(float dx, float dy, float dz)
 
 void Camera::processMouseMovement(float xoffset, float yoffset)
 {
-    float sensitivity = 0.1f;
+    float sensitivity = 0.5f;
     xoffset *= sensitivity;
     yoffset *= sensitivity;
 

@@ -163,7 +163,7 @@ void Renderer::renderSkybox(const glm::mat4& view, const glm::mat4& projection)
     glDepthFunc(GL_LESS);
 }
 
-void Renderer::renderCube()
+void Renderer::renderCube(const glm::mat4& view, const glm::mat4& projection, const glm::vec3& viewPos)
 {
     if (!isCubeInitialized)
     {
@@ -198,13 +198,13 @@ void Renderer::renderCube()
     GLuint projLoc = glGetUniformLocation(cubeShaderProgram, "projection");
 
     glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-    glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(glm::mat4(1.0f))); 
-    glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(glm::mat4(1.0f)));
+    glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view)); 
+    glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
 
     GLuint lightPosLoc = glGetUniformLocation(cubeShaderProgram, "lightPos");
     GLuint viewPosLoc = glGetUniformLocation(cubeShaderProgram, "viewPos");
     glUniform3f(lightPosLoc, 1.2f, 1.0f, 2.0f);
-    glUniform3f(viewPosLoc, 0.0f, 0.0f, 3.0f);
+    glUniform3fv(viewPosLoc, 1, &viewPos[0]);
 
     glBindVertexArray(cubeVAO);
     glDrawArrays(GL_TRIANGLES, 0, 36);

@@ -10,7 +10,7 @@ public:
     ~Renderer();
 
     void renderSkybox(const glm::mat4& view, const glm::mat4& projection);
-    void renderCube();
+    void renderCube(const glm::mat4& view, const glm::mat4& projection, const glm::vec3& viewPos);
 
 private:
     // Skybox 
