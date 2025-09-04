@@ -9,8 +9,16 @@ public:
     Renderer();
     ~Renderer();
 
-    void renderSkybox(const glm::mat4& view, const glm::mat4& projection);
-    void renderCube(const glm::mat4& view, const glm::mat4& projection, const glm::vec3& viewPos);
+    void renderSkybox(const glm::mat4& view, 
+                      const glm::mat4& projection);
+
+    void renderCube(const glm::mat4& view,
+                    const glm::mat4& projection, 
+                    const glm::vec3& position,
+                    const glm::vec3& viewPos, 
+                    const glm::vec3& objectColor, 
+                    const glm::vec3& scale = glm::vec3(1.0f),
+                    GLuint Texture = 0);
 
 private:
     // Skybox 

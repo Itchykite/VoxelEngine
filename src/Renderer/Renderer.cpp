@@ -163,7 +163,13 @@ void Renderer::renderSkybox(const glm::mat4& view, const glm::mat4& projection)
     glDepthFunc(GL_LESS);
 }
 
-void Renderer::renderCube(const glm::mat4& view, const glm::mat4& projection, const glm::vec3& viewPos)
+void Renderer::renderCube(const glm::mat4& view, 
+                          const glm::mat4& projection, 
+                          const glm::vec3& position,
+                          const glm::vec3& viewPos, 
+                          const glm::vec3& objectColor, 
+                          const glm::vec3& scale,
+                          GLuint Texture)
 {
     if (!isCubeInitialized)
     {
@@ -188,18 +194,29 @@ void Renderer::renderCube(const glm::mat4& view, const glm::mat4& projection, co
     }
 
     glUseProgram(cubeShaderProgram);
+
+    glUniform1i(glGetUniformLocation(cubeShaderProgram, "useTexture"), Texture ? GL_TRUE : GL_FALSE);
+
+    if(Texture)
+    {
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, Texture);
+        glUniform1i(glGetUniformLocation(cubeShaderProgram, "cubeTexture"), 0);
+    }
      
     glm::mat4 model = glm::mat4(1.0f);
-    model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-    model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+    model = glm::translate(model, position);
+    model = glm::scale(model, scale);
     
     GLuint modelLoc = glGetUniformLocation(cubeShaderProgram, "model");
     GLuint viewLoc = glGetUniformLocation(cubeShaderProgram, "view");
     GLuint projLoc = glGetUniformLocation(cubeShaderProgram, "projection");
+    GLuint colorLoc = glGetUniformLocation(cubeShaderProgram, "objectColor");
 
     glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
     glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view)); 
     glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
+    glUniform3fv(colorLoc, 1, &objectColor[0]);
 
     GLuint lightPosLoc = glGetUniformLocation(cubeShaderProgram, "lightPos");
     GLuint viewPosLoc = glGetUniformLocation(cubeShaderProgram, "viewPos");

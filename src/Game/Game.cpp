@@ -52,6 +52,7 @@ void Game::init()
     }
 
     glfwMakeContextCurrent(window);
+    glfwSwapInterval(0);
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) 
     {
@@ -129,6 +130,10 @@ void Game::loop()
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
+
+        ImGui::Begin("FPS");
+        ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+        ImGui::End();
         
         // UI ImGui
         ImGui::Begin("Camera Controls");
@@ -165,7 +170,12 @@ void Game::loop()
         glm::mat4 view = camera->getViewMatrix(); 
         glm::mat4 projection = camera->getProjectionMatrix();
         renderer->renderSkybox(view, projection);
-        renderer->renderCube(view, projection, camera->Position);
+
+        renderer->renderCube(view, projection, glm::vec3(0.0f, 0.0f, 0.0f), camera->Position, glm::vec3(1.0f, 0.5f, 0.31f));
+        renderer->renderCube(view, projection, glm::vec3(2.0f, 0.0f, -1.0f), camera->Position, glm::vec3(0.0f, 0.5f, 0.31f));
+        renderer->renderCube(view, projection, glm::vec3(-1.5f, 0.0f, -2.0f), camera->Position, glm::vec3(0.0f, 0.5f, 0.31f));
+        renderer->renderCube(view, projection, glm::vec3(-3.0f, 1.0f, -3.0f), camera->Position, glm::vec3(0.0f, 0.5f, 0.31f));
+        renderer->renderCube(view, projection, glm::vec3(1.5f, -1.0f, -2.5f), camera->Position, glm::vec3(0.0f, 0.5f, 0.31f));
 
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

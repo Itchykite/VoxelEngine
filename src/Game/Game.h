@@ -28,7 +28,6 @@ private:
 private:
     std::unique_ptr<class Renderer> renderer;
     std::unique_ptr<class Camera> camera;
-
 };
 // ------------------------------- Callback Functions -------------------------------
 extern Game* globalGame;
