@@ -4,6 +4,9 @@
 #include <GLFW/glfw3.h>
 #include <memory>
 #include <stdexcept>
+#include <glm/glm.hpp>
+#include <vector>
+#include "../World/World.h"
 
 class Game 
 {
@@ -28,6 +31,7 @@ private:
 private:
     std::unique_ptr<class Renderer> renderer;
     std::unique_ptr<class Camera> camera;
+    std::unique_ptr<class World> world;
 };
 // ------------------------------- Callback Functions -------------------------------
 extern Game* globalGame;

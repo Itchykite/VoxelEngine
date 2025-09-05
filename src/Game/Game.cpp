@@ -70,7 +70,7 @@ void Game::init()
     ImGui_ImplGlfw_InitForOpenGL(window, false);
     ImGui_ImplOpenGL3_Init("#version 330");
 
-    camera = std::make_unique<Camera>(glm::vec3(0.0f, 0.0f, 3.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0.0f);
+    camera = std::make_unique<Camera>(glm::vec3(0.0f, 15.0f, 25.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, -30.0f);
     globalCamera = camera.get();
     globalGame = this;
 
@@ -86,6 +86,7 @@ void Game::init()
     glfwSetKeyCallback(window, keyboard_callback);
     
     renderer = std::make_unique<Renderer>();
+    world = std::make_unique<World>();
     
     glfwGetCursorPos(window, &lastX, &lastY);
 }
@@ -171,11 +172,7 @@ void Game::loop()
         glm::mat4 projection = camera->getProjectionMatrix();
         renderer->renderSkybox(view, projection);
 
-        renderer->renderCube(view, projection, glm::vec3(0.0f, 0.0f, 0.0f), camera->Position, glm::vec3(1.0f, 0.5f, 0.31f));
-        renderer->renderCube(view, projection, glm::vec3(2.0f, 0.0f, -1.0f), camera->Position, glm::vec3(0.0f, 0.5f, 0.31f));
-        renderer->renderCube(view, projection, glm::vec3(-1.5f, 0.0f, -2.0f), camera->Position, glm::vec3(0.0f, 0.5f, 0.31f));
-        renderer->renderCube(view, projection, glm::vec3(-3.0f, 1.0f, -3.0f), camera->Position, glm::vec3(0.0f, 0.5f, 0.31f));
-        renderer->renderCube(view, projection, glm::vec3(1.5f, -1.0f, -2.5f), camera->Position, glm::vec3(0.0f, 0.5f, 0.31f));
+        world->render(view, projection, camera->Position);
 
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

@@ -11,17 +11,20 @@ uniform vec3 viewPos;
 uniform sampler2D cubeTexture;
 uniform bool useTexture;
 
+uniform vec3 sunDirection;
+uniform vec3 sunColor;
+
 void main()
 {    
     // Ambient
     float ambientStrength = 0.1;
-    vec3 ambient = ambientStrength * objectColor;
+    vec3 ambient = ambientStrength * sunColor;
   
     // Diffuse 
     vec3 norm = normalize(Normal);
-    vec3 lightDir = normalize(lightPos - FragPos);
+    vec3 lightDir = normalize(-sunDirection); // Directional light
     float diff = max(dot(norm, lightDir), 0.0);
-    vec3 diffuse = diff * objectColor;
+    vec3 diffuse = diff * sunColor;
     
     // Specular
     float specularStrength = 0.5;

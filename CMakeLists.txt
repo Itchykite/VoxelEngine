@@ -34,6 +34,7 @@ file(GLOB_RECURSE SOURCES
     "src/Shader/*.cpp"
     "src/TextureLoader/*.cpp"
     "src/Camera/*.cpp"
+    "src/World/*.cpp"
 )
 
 list(FILTER SOURCES EXCLUDE REGEX "include/imgui/examples/.*")
